@@ -1,0 +1,29 @@
+Top Secret
+2/5/26
+Patrick Schroeder (B)
+
+This program is responsible for reading the text file and outputting its text stream.
+It has a getter and setter method for variable filepath and a central method called ReadFile.
+Readfile takes filepath as an argument and attempts to read the file and output it. This
+throws an exception if the file is not found.
+String variable file_data is returned
+
+PSUEDOCODE
+
+public String filepath ="sample text"
+public string ReadFile(filepath)
+    String file_data="sample text"
+    try
+    while filepath.hasnextline
+        file_output=read.filepath
+    catch (exception e)
+        print("Something went wrong")
+
+    return file_output
+
+
+Tests
+
+
+
+
