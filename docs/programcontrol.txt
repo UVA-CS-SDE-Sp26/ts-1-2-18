@@ -1,0 +1,8 @@
+Program Control Class
+Girum Tekle
+
+The program control class is responsible for connecting the command line to the file handler, requesting
+file contents and returning readable text.
+
+When the program is executed with no arguments, this part of the program should provide a list of files
+available, along with a corresponding number.
