@@ -6,3 +6,27 @@ file contents and returning readable text.
 
 When the program is executed with no arguments, this part of the program should provide a list of files
 available, along with a corresponding number.
+
+Zero Arguments: ProgramControl will request a list of available files from FileHandler and then
+format the list into a number string (e.g. 01 filename.txt)
+
+One Argument: With a number provided ProgramControl maps the number to the corresponding file and sends
+it to get decrypted with default key and returns the result.
+
+Two Arguments: Follows the same steps as one argument but maps to an alternate key for decryption
+
+
+
+
+Unit Testing Plan
+
+Input: []               Expected: Formatted list "01 file.txt", "02 file.txt", etc
+
+Input: ["01"]           Expected: Retrieves contents of first file, deciphers with key.txt
+
+Input: ["01","xxx.txt"] Expected: Retrieves contents, deciphers with xxx.txt
+
+Input: ["100"]          Expected: "File index 100 is out of range."
+
+Input: ["a"]            Expected: "Please enter a valid file number."
+
