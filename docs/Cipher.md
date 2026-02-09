@@ -1,1 +1,10 @@
-You are responsible for implementing the ciphering feature. This feature should accept a ciphered string and return it deciphered. The cipher will be stored in a file named key.txt, stored in a folder, ciphers, (in the same directory of the program, or in the root of your project folder.) This file will contain two lines, the first line is the actual letter, the second line is the cipher match. When the cipher is accessed, it must be validated. An example will be provided. Document this in cipher.txt.
+# Cipher
+## Behavior
+Accept a ciphered string and return the string deciphered.
+## Inputs
+- Cipher in the ~/ciphers/key.txt file.
+**OR**
+- Cipher key provided as a second command line argument to the app
+### Format
+- First line is the normal latters
+- Second line is the cipher match
