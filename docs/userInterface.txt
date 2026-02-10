@@ -1,0 +1,20 @@
+User Interface- TopSecret
+
+Command Line:
+java topsecret
+java top secret <fileNumber>
+java topsecret <fileNumber> <cipherKeyFile>
+
+Output for Arguments:
+
+-No arguments: display the available files located in the data folder
+-One Argument: Display the contents of the file according to the file number.
+if the file is ciphered, use the default key
+-Two Arguments: Display the contents after deciphering the file according to its cipher key
+
+Throw errors for:
+-Invalid file number
+-File can't be found
+-Invalid cipher key
+
+Programs exits after displaying file list, file contents, or error
