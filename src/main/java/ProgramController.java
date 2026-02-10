@@ -3,12 +3,12 @@ import java.util.List;
 public class ProgramController {
 
     private final FileHandler fileHandler;
-    private final Cipher cipher;
+    private final cipher cipher;
 
     // Constructor: create the objects from Role B and Role D
     public ProgramController() {
         this.fileHandler = new FileHandler();  // Role B
-        this.cipher = new Cipher();            // Role D
+        this.cipher = new cipher();            // Role D
     }
 
     // LIST FILES
@@ -59,8 +59,8 @@ public class ProgramController {
             }
 
             // Load key and decipher
-            CipherKey key = cipher.loadKey(keyPath);
-            String deciphered = cipher.decipher(rawText, key);
+            cipher.loadKey(keyPath);
+            String deciphered = cipher.decipher(rawText, cipher.getCipher());
 
             return deciphered;
 
