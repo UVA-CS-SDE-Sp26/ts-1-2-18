@@ -76,8 +76,7 @@ public class ProgramControllerTest {
         when(mockFileHandler.getAvailableFiles()).thenReturn(List.of("secret.txt"));
         when(mockFileHandler.readFile("secret.txt")).thenReturn("XYZ");
 
-        // loadKey is void → must use doNothing()
-        doNothing().when(mockCipher).loadKey("key.txt");
+        when(mockCipher.loadKey("key.txt")).thenReturn(null);
 
         when(mockCipher.getCipher()).thenReturn("ABC");
         when(mockCipher.decipher("XYZ", "ABC")).thenReturn("DECODED");
