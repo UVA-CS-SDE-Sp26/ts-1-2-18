@@ -7,6 +7,16 @@ file contents and returning readable text.
 When the program is executed with no arguments, this part of the program should provide a list of files
 available, along with a corresponding number.
 
+
+--------------------------------------
+- fileHandler: FileHandler
+- cipher: Cipher
+--------------------------------------
++ ProgramControl(fileHandler: FileHandler)
++ handleRequest(args: String[]): String
+- formatFileList(files: ArrayList<String>): String
+
+
 Zero Arguments: ProgramControl will request a list of available files from FileHandler and then
 format the list into a number string (e.g. 01 filename.txt)
 
