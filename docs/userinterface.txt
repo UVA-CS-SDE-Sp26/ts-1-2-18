@@ -58,19 +58,6 @@ void validateArgs(String args[])
             throw new IllegalArgumentException
 
 
-
-
-
-if args == 0
-    call method to display all the files
-
-else if args == 1
-    call method to display the file at the index given by the users argument
-
-else if args == 2
-    call method to display the file and use the key given by the user's second arg
-
-
 TESTS
 **use a testing variable to keep track of where the code enters**
 
