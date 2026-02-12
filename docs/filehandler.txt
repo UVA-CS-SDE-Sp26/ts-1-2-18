@@ -4,7 +4,9 @@ Accesses files from the folder "~/data"
 ------------------------
 
 ------------------------
-+ReadFile(String):String
++readFile(String):String
++getFileList():String
++doesFileExist(String):boolean
 ------------------------
 
 Unit Tests:
