@@ -1,29 +1,48 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
 
 public class FileHandler {
-    private String filepath;
+    //defaulted to data, might need to change that
+    private static final String DATA_FOLDER = "data";
 
-    public String getFilepath() {
-        return filepath;
+    //first method
+    public List<String> getAvailableFiles() {
+        List<String> files = new ArrayList<>();
+        File dataDir = new File(DATA_FOLDER);
+
+        if (!dataDir.exists() || !dataDir.isDirectory()) {
+            return files; // return empty list
+        }
+
+        File[] fileArray = dataDir.listFiles((dir, name) -> name.endsWith(".txt"));
+        if (fileArray != null) {
+            for (File file : fileArray) {
+                files.add(file.getName());
+            }
+        }
+
+        return files;
     }
 
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
-    }
-    public String readFile(String filepath){
-        File data_file=new File(filepath);
-        String file_output = "this is a blank output. Something went wrong";
-        try (Scanner myReader = new Scanner(data_file)) {
+    // reads file contnents
+    public String readFile(String filename) {
+        File dataFile = new File(DATA_FOLDER, filename);
+        StringBuilder fileOutput = new StringBuilder();
+
+        try (Scanner myReader = new Scanner(dataFile)) {
             while (myReader.hasNextLine()) {
-                file_output = myReader.nextLine();
-                System.out.println(file_output);
+                fileOutput.append(myReader.nextLine());
+                if (myReader.hasNextLine()) {
+                    fileOutput.append(System.lineSeparator());
+                }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred when finding file.");
-            e.printStackTrace();
+            return "Error: File not found - " + filename;
         }
-        return file_output;
+
+        return fileOutput.toString();
     }
 }

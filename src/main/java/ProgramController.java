@@ -1,18 +1,17 @@
 import java.util.List;
-import java.util.logging.FileHandler;
 
 public class ProgramController {
 
     private final FileHandler fileHandler;
-    private final cipher cipher;
+    private final Cipher cipher;
 
     // Constructor: create the objects from Role B and Role D
     public ProgramController() {
         this.fileHandler = new FileHandler();  // Role B
-        this.cipher = new cipher();            // Role D
+        this.cipher = new Cipher();            // Role D
     }
 
-    public ProgramController(FileHandler fileHandler, cipher cipher) {
+    public ProgramController(FileHandler fileHandler, Cipher cipher) {
         this.fileHandler = fileHandler;
         this.cipher = cipher;
     }

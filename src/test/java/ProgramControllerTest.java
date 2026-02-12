@@ -11,13 +11,13 @@ import static org.mockito.Mockito.*;
 public class ProgramControllerTest {
 
     private FileHandler mockFileHandler;
-    private cipher mockCipher;
+    private Cipher mockCipher;
     private ProgramController controller;
 
     @BeforeEach
     public void setup() {
         mockFileHandler = Mockito.mock(FileHandler.class);
-        mockCipher = Mockito.mock(cipher.class);
+        mockCipher = Mockito.mock(Cipher.class);
 
         // Inject mocks using a special constructor you add for testing
         controller = new ProgramController(mockFileHandler, mockCipher);
