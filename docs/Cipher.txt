@@ -1,0 +1,59 @@
+// Cipher
+// 2/5/26
+// Aaryav Walter (D)
+
+OVERVIEW
+// cipher.txt receives two strings
+// each character in the first string represents an actual letter of the alphabet
+// each character in the second string represents the corresponding cipher match of the first string’s character
+// the program completely deciphers user given ciphered text using the two given strings
+// the program indexes the current character of the text to be deciphered and replaces the current character from the cipher character with the actual character in the alphabet
+
+PSEUDOCODE
+// print title and global, string variables of string = actual character and string = ciphered character fully
+// print starting on the next space in the file
+// create a scanner object
+// take in user input and check whether user has written a command
+// when the proper command is given, use the helper method to convert the user’s next line (text input) into deciphered text
+// helper method will be called decipherText
+// given string (user input) from cipher method, iterate through each character
+// find identical character in string = actual and record index i
+// find character at index i in string = cipher
+// add the character to a newly created string
+// return string
+
+TEST
+// tests for load key method
+// 1. return unsuccessful (file not found exception) load key method when incorrect argument
+// is added (a string that is not a file path)
+// 2. return unsuccessful (file not found exception) load key method when incorrect
+// argument is added with cipher variable modified
+
+// tests for decipher method
+// 1. return successful decipher method when both variables are instantiated
+// to equal lengths and the word is correctly deciphered
+// 2. return failed (null) decipher method when variables have different lengths
+// 3. return failed (null) decipher method when one variable is instantiated to empty string
+// 4. return failed (null) decipher method when one variable (cipher) is not instantiated
+// 5. return failed (null) decipher method when other variable (actual) is not instantiated
+
+// tests for cipher accessor method
+// 1. return cipher when modified
+// 2. return default cipher
+
+// tests for actual accessor method
+// 1. return actual when modified
+// 2. return default actual
+
+UML DIAGRAM
+Cipher
+- - - - - - - -
+- actual: String
+- cipher: String
+- - - - - - - -
++loadKey(String): String
++decipher(String, String): String
++getCipher(): String
++getActual(): String
++setCipher(String)
++setActual(String)
