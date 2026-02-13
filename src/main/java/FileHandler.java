@@ -7,11 +7,16 @@ import java.nio.file.*;
 
 public class FileHandler {
 
-    final static String fileDirectory = "data" + File.separator;
+    String fileDirectory;
     String targetFileName;
 
     public FileHandler() {
+        this.fileDirectory = "data" + File.separator;
+    }
 
+    //This exists so that a temporary directory can be used in testing.
+    public FileHandler(String fileDirectory) {
+        this.fileDirectory = fileDirectory + File.separator;
     }
 
     public String getFileList() throws IOException     {
@@ -49,7 +54,11 @@ public class FileHandler {
                 returnString += line;
                 returnString += "\n";
             }
-
+            //This ensures there is no extra "\n" at the end of the string.
+            //This does not happen for the input "" as that does not trigger the while loop.
+            if(!returnString.isEmpty()) {
+                returnString = returnString.substring(0, returnString.length()-1);
+            }
         }catch(IOException e) {
                 System.out.println("File could not be read."+e.getMessage());
             }

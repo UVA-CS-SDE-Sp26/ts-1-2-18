@@ -1,0 +1,57 @@
+Cipher Class
+Sae-Jin Moon
+
+The Cipher class's primary responsibility is to perform character substitution based on a plain and cipher key map.
+This converts the ciphered text into readable text.
+I implemented it with handling cases for capitalization, punctuation, and malformed key files using defensive programming.
+This keeps the program running properly even with incomplete data.
+
+--------------------------------------
+- key: String
+- ciphered_string: String
+--------------------------------------
++ Cipher(ciphered_string: String)
++ Cipher(ciphered_string: String, key: String)
++ decipher(): String
++ decipher(keyPath: String): String
+- process(keyContent: String): String
++ getCipheredString(): String
++ setCipheredString(ciphered_string: String)
++ getKey(): String
++ setKey(key: String)
+--------------------------------------
+
+Standard Decipher: Uses the key string stored during object initialization to process the ciphered text.
+
+Path-based Decipher: Accepts a file path as a string, attempts to read the file contents as a new key,
+and processes the text using that specific key. If the file cannot be read, it returns the original
+ciphered string.
+
+Substitution Logic: The key is split into two lines (Normal and Cipher). The class iterates through
+the ciphered text, finds the index of each character in the Cipher line, and replaces it with the
+corresponding character from the Normal line.
+
+Case & Punctuation: The algorithm is case-insensitive for matching but preserves the original
+capitalization of the input in the output. Characters not found in the key (spaces, punctuation, etc.)
+are passed through to the result unchanged.
+
+Defensive Handling: If the key content contains fewer than two lines or if null values are encountered,
+the class returns the original string to prevent data loss or runtime crashes.
+
+
+Unit Testing Plan
+
+Input: key: "ABC\nXYZ", text: "X y Z!"
+Expected: "A b C!" (Preserves capitalization, spaces, and punctuation)
+
+Input: key: "ABC", text: "Hello"
+Expected: "Hello" (Handles incomplete keys with only one line)
+
+Input: keyPath: "invalid_path.txt"
+Expected: Original String (Gracefully handles IO/File not found errors)
+
+Input: key: "ABC\nXY", text: "XYZ"
+Expected: "ABZ" (Handles keys where mapping lines are of unequal lengths)
+
+Input: key: null, text: "Data"
+Expected: "Data" (Handles null key initialization)

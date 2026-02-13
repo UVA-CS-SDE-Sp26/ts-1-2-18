@@ -17,6 +17,6 @@ Input: ["This is a file \n with multiple lines. \n"]
 
 Input: ["This is a file \n with multiple lines which doesn't end on a newline"]
 
-Input: ["This is a file with 1 number, and some punctuation !@#$%^&*() \" ,./?><{}|\][ and some words after."]
+Input: ["This is a file with 1 number, and some punctuation !@#$%^&*() \" ,./?><{}|][ and some words after."]
 
 Input["This is a file with 1 number, and some punctuation !@#$%^&*()"]

@@ -27,6 +27,7 @@ Two Arguments: Follows the same steps as one argument but maps to an alternate k
 
 
 
+Use Mockito to simulate FileHandler responses.
 
 Unit Testing Plan
 
@@ -36,7 +37,7 @@ Input: ["01"]           Expected: Retrieves contents of first file, deciphers wi
 
 Input: ["01","xxx.txt"] Expected: Retrieves contents, deciphers with xxx.txt
 
-Input: ["100"]          Expected: "File index 100 is out of range."
+Input: ["60"]          Expected: "File index 60 is out of range."
 
-Input: ["a"]            Expected: "Please enter a valid file number."
+Input: ["bcde"]            Expected: "Please enter a valid file number."
 

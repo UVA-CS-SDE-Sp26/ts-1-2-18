@@ -1,63 +1,73 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import static org.mockito.Mockito.*;
+import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
-
 class ProgramControlTest {
-    private ProgramControl pc;
-    private FileHandler fh;
+    private ProgramControl programControl;
+    private FileHandler fileHandler;
 
-    /*
+
     @BeforeEach
-    void setUp(){
-    fh = new FileHandler();
-    pc = new ProgramControl(fh);
-
+   public void setUp() {
+    fileHandler = mock(FileHandler.class);
+    programControl = new ProgramControl(fileHandler);
     }
 
     @Test
-    void testNoArguments(){
-        String[] args = {};
-        String result = pc.handleRequest(args);
+    void handleRequestsNoArguments() throws IOException {
+        when(fileHandler.getFileList()).thenReturn("filea.txt\nfileb.txt");
+        String result = programControl.handleRequest(new String[]{});
         assertNotNull(result);
-        assertTrue(result.contains("01"));
-
+        assertTrue(result.contains("01 filea.txt"));
+        assertTrue(result.contains("02 fileb.txt"));
     }
 
 
 
     @Test
-    void testOneArgument(){
-        String[] args = {"01"};
-        String result = pc.handleRequest(args);
+    void handleRequestsOneArgument() throws IOException {
+        when(fileHandler.getFileList()).thenReturn("filea.txt");
+        when(fileHandler.readFile("filea.txt")).thenReturn("KHOOR");
+        when(fileHandler.readFile("key.txt")).thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nDEFGHIJKLMNOPQRSTUVWXYZABC");
+        String result = programControl.handleRequest(new String[]{"01"});
+        assertEquals("HELLO", result);
+
+    }
+
+    @Test
+    void handleRequestsTwoArguments() throws IOException {
+        when(fileHandler.getFileList()).thenReturn("filea.txt");
+        when(fileHandler.readFile("filea.txt")).thenReturn("KHOOR");
+        when(fileHandler.readFile("alt_key.txt")).thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nDEFGHIJKLMNOPQRSTUVWXYZABC");
+        String result = programControl.handleRequest(new String[]{"01", "alt_key.txt"});
         assertNotNull(result);
+        assertEquals("HELLO", result);
 
     }
 
     @Test
-    void testTwoArguments(){
-        String[] args = {"01","key.txt"};
-        String result = pc.handleRequest(args);
-        assertNotNull(result);
-
-    }
-    @Test
-    void invalidArgument(){
-        String[] args = {"abc"};
-        String result = pc.handleRequest(args);
+    void invalidArgument() throws IOException {
+        when(fileHandler.getFileList()).thenReturn("filea.txt");
+        String result = programControl.handleRequest(new String[]{"bcde"});
         assertEquals("Please enter a valid file number", result);
 
     }
 
     @Test
-    void indexOutOfRange(){
-        String[] args = {"60"};
-        String result = pc.handleRequest(args);
-        assertEquals("File 60 is out of range.", result);
+    void indexOutOfRange() throws IOException {
+        when(fileHandler.getFileList()).thenReturn("filea.txt");
+        String result = programControl.handleRequest(new String[]{"60"});
+        assertEquals("File index 60 is out of range.", result);
 
     }
-    */
+
+    @Test
+    void handleRequestGracefulExit() throws IOException {
+        when(fileHandler.getFileList()).thenReturn("filea.txt");
+        when(fileHandler.readFile("filea.txt")).thenThrow(new RuntimeException("File not found."));
+        assertThrows(RuntimeException.class, () -> programControl.handleRequest(new String[]{"01"}));
+    }
 }
