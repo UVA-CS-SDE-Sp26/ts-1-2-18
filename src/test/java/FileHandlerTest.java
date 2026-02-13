@@ -32,7 +32,7 @@ class FileHandlerTest {
                 "02 fileWithMultipleLines.txt\n" +
                 "03 fileWithMultipleLinesNotEndingOnANewline.txt\n" +
                 "04 fileWithSymbolsAndWordsAfter.txt\n" +
-                "05 fileEndingWithSymbols.txt",fileHandlerInstance.getFileList());
+                "05 fileEndingWithSymbols.txt",fileHandlerInstance.getFileList(), "File list did not match files in directory.");
     }
 
     @Test
@@ -52,14 +52,15 @@ class FileHandlerTest {
         Files.writeString(file, "This is a file with 1 number, and some punctuation !@#$%^&*()");
 
 
-        assertTrue(fileHandlerInstance.doesFileExist("01 emptyFile.txt"));
-        assertTrue(fileHandlerInstance.doesFileExist("02 fileWithMultipleLines.txt"));
-        assertTrue(fileHandlerInstance.doesFileExist("03 fileWithMultipleLinesNotEndingOnANewline.txt"));
-        assertTrue(fileHandlerInstance.doesFileExist("04 fileWithSymbolsAndWordsAfter.txt"));
-        assertTrue(fileHandlerInstance.doesFileExist("05 fileEndingWithSymbols.txt"));
+        assertTrue(fileHandlerInstance.doesFileExist("01 emptyFile.txt"), "file in directory was not found.");
+        assertTrue(fileHandlerInstance.doesFileExist("02 fileWithMultipleLines.txt"), "file in directory was not found.");
+        assertTrue(fileHandlerInstance.doesFileExist("03 fileWithMultipleLinesNotEndingOnANewline.txt"), "file in directory was not found.");
+        assertTrue(fileHandlerInstance.doesFileExist("04 fileWithSymbolsAndWordsAfter.txt"), "file in directory was not found.");
+        assertTrue(fileHandlerInstance.doesFileExist("05 fileEndingWithSymbols.txt"), "file in directory was not found.");
 
         //Asserts that this call will cause a runtime exception. () -> is necessary so the test doesn't crash instantly.
-        assertThrows(RuntimeException.class, () -> fileHandlerInstance.doesFileExist("06 fileThatDoesn'tExist.txt"));
+        assertThrows(RuntimeException.class, () -> fileHandlerInstance.doesFileExist("06 fileThatDoesn'tExist.txt"), "File that was " +
+                "not in the directory failed to throw an error.");
     }
 
     @Test
@@ -79,10 +80,16 @@ class FileHandlerTest {
         Files.writeString(file, "This is a file with 1 number, and some punctuation !@#$%^&*()");
 
 
-        assertEquals("", fileHandlerInstance.readFile("01 emptyFile.txt"));
-        assertEquals("This is a file \n with multiple lines. \n.txt", fileHandlerInstance.readFile("02 fileWithMultipleLines.txt"));
-        assertEquals("This is a file \n with multiple lines which doesn't end on a newline", fileHandlerInstance.readFile("03 fileWithMultipleLinesNotEndingOnANewLine.txt"));
-
+        assertEquals("", fileHandlerInstance.readFile("01 emptyFile.txt"), "Read file contents do not match" +
+                "the correct file contents.");
+        assertEquals("This is a file \n with multiple lines. \n.txt", fileHandlerInstance.readFile("02 fileWithMultipleLines.txt"), "Read file contents do not match" +
+                "the correct file contents.");
+        assertEquals("This is a file \n with multiple lines which doesn't end on a newline", fileHandlerInstance.readFile("03 fileWithMultipleLinesNotEndingOnANewLine.txt"), "Read file contents do not match" +
+                "the correct file contents.");
+        assertEquals("This is a file with 1 number, and some punctuation !@#$%^&*() \" ,./?><{}|][ and some words after.", fileHandlerInstance.readFile("04 fileWithSymbolsAndWordsAfter.txt"), "Read file contents do not match" +
+                "the correct file contents.");
+        assertEquals("This is a file with 1 number, and some punctuation !@#$%^&*()", fileHandlerInstance.readFile("05 fileEndingWithSymbols.txt"), "Read file contents do not match" +
+                "the correct file contents.");
 
     }
 }
