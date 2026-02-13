@@ -30,19 +30,21 @@ class ProgramControlTest {
     @Test
     void handleRequestsOneArgument() throws IOException {
         when(fileHandler.getFileList()).thenReturn("filea.txt");
-        when(fileHandler.readFile("filea.txt")).thenReturn("message");
+        when(fileHandler.readFile("filea.txt")).thenReturn("KHOOR");
+        when(fileHandler.readFile("key.txt")).thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nDEFGHIJKLMNOPQRSTUVWXYZABC");
         String result = programControl.handleRequest(new String[]{"01"});
-        assertEquals("message", result);
+        assertEquals("HELLO", result);
 
     }
 
     @Test
     void handleRequestsTwoArguments() throws IOException {
         when(fileHandler.getFileList()).thenReturn("filea.txt");
-        when(fileHandler.readFile("filea.txt")).thenReturn("message");
+        when(fileHandler.readFile("filea.txt")).thenReturn("KHOOR");
+        when(fileHandler.readFile("alt_key.txt")).thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nDEFGHIJKLMNOPQRSTUVWXYZABC");
         String result = programControl.handleRequest(new String[]{"01", "alt_key.txt"});
         assertNotNull(result);
-        assertEquals("message", result);
+        assertEquals("HELLO", result);
 
     }
 
@@ -60,5 +62,12 @@ class ProgramControlTest {
         String result = programControl.handleRequest(new String[]{"60"});
         assertEquals("File index 60 is out of range.", result);
 
+    }
+
+    @Test
+    void handleRequestGracefulExit() throws IOException {
+        when(fileHandler.getFileList()).thenReturn("filea.txt");
+        when(fileHandler.readFile("filea.txt")).thenThrow(new RuntimeException("File not found."));
+        assertThrows(RuntimeException.class, () -> programControl.handleRequest(new String[]{"01"}));
     }
 }
