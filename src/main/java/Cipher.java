@@ -1,25 +1,27 @@
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class Cipher {
     private String key;
     private String ciphered_string;
 
-    public Cipher(String key, String ciphered_string){
-        this.key = key;
+    public Cipher(String ciphered_string){
         this.ciphered_string = ciphered_string;
+        this.key = "";
+    }
+    public Cipher(String ciphered_string, String key){
+        this.ciphered_string = ciphered_string;
+        this.key = key;
     }
 
     public String decipher(){
         return process(this.key);
     }
 
-    public String decipher(String keyPath) {
+    public String decipher(String fileName) {
         try {
-            String fileContent = Files.readString(Paths.get(keyPath));
+            FileHandler fh = new FileHandler("ciphers");
+            String fileContent = fh.readFile(fileName);
             return process(fileContent);
-        } catch (IOException e) {
+        } catch(RuntimeException e){
+            System.err.println("Decryption Failed: " + e.getMessage() + " (" + fileName + ")");
             return this.ciphered_string;
         }
     }
@@ -27,12 +29,14 @@ public class Cipher {
     private String process(String keyContent){
         // check for null values first
         if (keyContent == null || this.ciphered_string == null) {
+            System.err.println("Decryption Failed: Please provide a non-null key and string to be deciphered.");
             return this.ciphered_string != null ? this.ciphered_string : "";
         }
 
         String[] parts = keyContent.split("\\R");
         // check for two lines in the key file
         if (parts.length < 2) {
+            System.err.println("Decryption Failed: The key file must contain at least two lines (Normal and Cipher).");
             return this.ciphered_string;
         }
 

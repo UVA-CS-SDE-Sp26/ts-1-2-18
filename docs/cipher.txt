@@ -10,7 +10,8 @@ This keeps the program running properly even with incomplete data.
 - key: String
 - ciphered_string: String
 --------------------------------------
-+ Cipher(key: String, ciphered_string: String)
++ Cipher(ciphered_string: String)
++ Cipher(ciphered_string: String, key: String)
 + decipher(): String
 + decipher(keyPath: String): String
 - process(keyContent: String): String

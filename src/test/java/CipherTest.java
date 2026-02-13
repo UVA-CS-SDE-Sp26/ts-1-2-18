@@ -1,42 +1,33 @@
 import org.junit.jupiter.api.Test;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CipherTest {
 
     @Test
-    void testFullIntegrationWithFile() throws IOException {
-        Path tempKey = Paths.get("temp_key.txt");
-        Files.writeString(tempKey, "ABC\nXYZ");
-
-        Cipher cipher = new Cipher("", "Xy Z!");
-        String result = cipher.decipher("temp_key.txt");
-
-        assertEquals("Ab C!", result);
-        Files.deleteIfExists(tempKey);
+    void testWithFile() {
+        Cipher cipher = new Cipher("Ifmmp Xpsme!");
+        String result = cipher.decipher("key.txt");
+        assertEquals("Hello World!", result);
     }
 
     @Test
     void testPunctuationAndCase() {
         String key = "ABCDE\nVWXYZ";
-        Cipher cipher = new Cipher(key, "W, x Y!");
+        Cipher cipher = new Cipher("W, x Y!", key);
         assertEquals("B, c D!", cipher.decipher());
     }
 
     @Test
     void testIncompleteKeyFile() {
         String key = "ONLY_ONE_LINE";
-        Cipher cipher = new Cipher(key, "Hello");
+        Cipher cipher = new Cipher("Hello", key);
         assertEquals("Hello", cipher.decipher());
     }
 
     @Test
     void testKeyMismatchLength() {
         String key = "ABC\nXY";
-        Cipher cipher = new Cipher(key, "XYZ");
+        Cipher cipher = new Cipher("XYZ", key);
         assertEquals("ABZ", cipher.decipher());
     }
 
