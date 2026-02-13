@@ -39,10 +39,10 @@ public class ProgramControl {
 
 
         if( args.length == 1 ){
-            Cipher cipher = new Cipher( fileHandler.readFile("key.txt"),cipheredText);
+            Cipher cipher = new Cipher(cipheredText, fileHandler.readFile("key.txt"));
             return cipher.decipher();
         } else{
-            Cipher cipher = new Cipher(fileHandler.readFile(args[1]),cipheredText);
+            Cipher cipher = new Cipher(cipheredText, fileHandler.readFile(args[1]));
             return cipher.decipher();
         }
     }

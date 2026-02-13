@@ -31,7 +31,8 @@ class ProgramControlTest {
     void handleRequestsOneArgument() throws IOException {
         when(fileHandler.getFileList()).thenReturn("filea.txt");
         when(fileHandler.readFile("filea.txt")).thenReturn("KHOOR");
-        when(fileHandler.readFile("key.txt")).thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nDEFGHIJKLMNOPQRSTUVWXYZABC");
+        String key = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\nDEFGHIJKLMNOPQRSTUVWXYZABC";
+        when(fileHandler.readFile("key.txt")).thenReturn(key);
         String result = programControl.handleRequest(new String[]{"01"});
         assertEquals("HELLO", result);
 
@@ -41,11 +42,16 @@ class ProgramControlTest {
     void handleRequestsTwoArguments() throws IOException {
         when(fileHandler.getFileList()).thenReturn("filea.txt");
         when(fileHandler.readFile("filea.txt")).thenReturn("KHOOR");
-        when(fileHandler.readFile("alt_key.txt")).thenReturn("ABCDEFGHIJKLMNOPQRSTUVWXYZ\nDEFGHIJKLMNOPQRSTUVWXYZABC");
-        String result = programControl.handleRequest(new String[]{"01", "alt_key.txt"});
-        assertNotNull(result);
-        assertEquals("HELLO", result);
 
+        // FIX: Use \r\n to ensure the Cipher recognizes TWO lines on Windows
+        String mockKey = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\r\nDEFGHIJKLMNOPQRSTUVWXYZABC";
+        when(fileHandler.readFile("alt_key.txt")).thenReturn(mockKey);
+
+        String result = programControl.handleRequest(new String[]{"01", "alt_key.txt"});
+
+        assertNotNull(result);
+        // This will now match because the Cipher will successfully decrypt KHOOR to HELLO
+        assertEquals("HELLO", result);
     }
 
     @Test
