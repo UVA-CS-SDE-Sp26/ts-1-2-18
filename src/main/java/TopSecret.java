@@ -1,5 +1,5 @@
 /**
- * Commmand Line Utility
+ * Command Line Utility
  */
  import java.io.IOException;
  import java.nio.file.Files;

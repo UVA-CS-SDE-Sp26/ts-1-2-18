@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public class ProgramControl {
     private FileHandler fileHandler;
-    private Cipher cipher;
 
     public  ProgramControl(FileHandler fileHandler){
         this.fileHandler = fileHandler;
@@ -40,11 +39,11 @@ public class ProgramControl {
 
 
         if( args.length == 1 ){
-            Cipher cipher = new Cipher( "key.txt",cipheredText);
+            Cipher cipher = new Cipher( fileHandler.readFile("key.txt"),cipheredText);
             return cipher.decipher();
         } else{
-            Cipher cipher = new Cipher(args[1],cipheredText);
-            return cipher.decipher(args[1]);
+            Cipher cipher = new Cipher(fileHandler.readFile(args[1]),cipheredText);
+            return cipher.decipher();
         }
     }
 
