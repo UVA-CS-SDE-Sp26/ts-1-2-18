@@ -5,60 +5,54 @@ import java.util.Arrays;
 public class ProgramControl {
     private FileHandler fileHandler;
 
-    public  ProgramControl(FileHandler fileHandler){
+    public ProgramControl(FileHandler fileHandler){
         this.fileHandler = fileHandler;
     }
 
-
     public String handleRequest(String[] args) throws IOException {
-        String rawFileList= fileHandler.getFileList();
+        String rawFileList = fileHandler.getFileList();
 
         if (rawFileList == null || rawFileList.isEmpty()) {
-            return "No data files found in the directory.";
+            return "Error: No data files found in the 'data/' directory.";
         }
         ArrayList<String> files = new ArrayList<>(Arrays.asList(rawFileList.split("\n")));
 
-        if( args.length == 0 ){
+        if (args.length == 0) {
             return formatFileList(files);
         }
 
-        String firstArg = args[0];
-        for(int i = 0; i < firstArg.length(); i++){
-            if(!Character.isDigit(firstArg.charAt(i))){
-                return "Please enter a valid file number";
-            }
+        if (args.length > 2) {
+            return "Usage Error: Too many arguments.\nUsage: java TopSecret <file_number> [key_filename]";
         }
 
-        int index = Integer.parseInt(firstArg)-1;
-        if (index < 0 || index >= files.size()){
-            return "File index " + (args[0]) + " is out of range.";
-
+        int index;
+        try {
+            index = Integer.parseInt(args[0]) - 1;
+        } catch (NumberFormatException e) {
+            return "Usage Error: '" + args[0] + "' is not a valid number.\nUsage: java TopSecret <file_number> [key_filename]";
         }
+
+        if (index < 0 || index >= files.size()) {
+            return "Index Error: File number " + args[0] + " does not exist.\nPlease choose a number between 01 and " + String.format("%02d", files.size()) + ".";
+        }
+
         String filename = files.get(index);
         String cipheredText = fileHandler.readFile(filename);
 
+        Cipher cipher = new Cipher(cipheredText);
 
-        if( args.length == 1 ){
-            Cipher cipher = new Cipher(cipheredText, fileHandler.readFile("key.txt"));
-            return cipher.decipher();
-        } else{
-            Cipher cipher = new Cipher(cipheredText, fileHandler.readFile(args[1]));
-            return cipher.decipher();
+        if (args.length == 1) {
+            return cipher.decipher("key.txt");
+        } else {
+            return cipher.decipher(args[1]);
         }
     }
 
-    public String formatFileList(ArrayList<String> files){
-        String result = "";
-        for(int i = 0; i < files.size(); i++){
-            int fileNum = i+1;
-            String pre = "";
-            if (fileNum <10){
-                pre = "0";
-            }
-            result += pre + fileNum + " " + files.get(i) + "\n";
+    public String formatFileList(ArrayList<String> files) {
+        StringBuilder result = new StringBuilder("Available Files:\n");
+        for (int i = 0; i < files.size(); i++) {
+            result.append(String.format("%02d %s\n", i + 1, files.get(i)));
         }
-        return result.trim();
-
+        return result.toString().trim();
     }
-
 }
