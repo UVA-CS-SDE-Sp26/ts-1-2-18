@@ -58,16 +58,18 @@ class ProgramControlTest {
     void invalidArgument() throws IOException {
         when(fileHandler.getFileList()).thenReturn("filea.txt");
         String result = programControl.handleRequest(new String[]{"bcde"});
-        assertEquals("Please enter a valid file number", result);
 
+
+        assertTrue(result.contains("Usage Error: 'bcde' is not a valid number."));
     }
 
     @Test
     void indexOutOfRange() throws IOException {
         when(fileHandler.getFileList()).thenReturn("filea.txt");
         String result = programControl.handleRequest(new String[]{"60"});
-        assertEquals("File index 60 is out of range.", result);
 
+
+        assertTrue(result.contains("Index Error: File number 60 does not exist."));
     }
 
     @Test

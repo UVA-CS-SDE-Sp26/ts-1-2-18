@@ -39,15 +39,17 @@ public class ProgramControl {
         String filename = files.get(index);
         String cipheredText = fileHandler.readFile(filename);
 
-        Cipher cipher = new Cipher(cipheredText);
-
+        String keyContent;
         if (args.length == 1) {
-            return cipher.decipher("key.txt");
+            keyContent = fileHandler.readFile("key.txt"); // Member C reads it
         } else {
-            return cipher.decipher(args[1]);
+            keyContent = fileHandler.readFile(args[1]); // Member C reads it
         }
-    }
 
+// Pass both to the constructor as (Message, Key)
+        Cipher cipher = new Cipher(cipheredText, keyContent);
+        return cipher.decipher();
+    }
     public String formatFileList(ArrayList<String> files) {
         StringBuilder result = new StringBuilder("Available Files:\n");
         for (int i = 0; i < files.size(); i++) {
