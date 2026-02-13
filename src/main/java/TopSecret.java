@@ -11,7 +11,7 @@ public class TopSecret {
 
         String keyFileName = (args.length >= 2) ? args[1] : "key.txt";
 
-        Cipher cipher = new Cipher("", input);
+        Cipher cipher = new Cipher(input);
 
         System.out.println(cipher.decipher(keyFileName));
     }
